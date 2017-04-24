@@ -4,5 +4,9 @@
 if [ -n "$( find $1 -maxdepth 3 -iname project.json )" ]; then
   echo ".NET Core" && exit 0
 else
-  echo "no" && exit 1
+  if [ -n "$( find $1 -maxdepth 3 -iname *.csproj )" ]; then
+    echo ".NET Core" && exit 0
+  else
+    echo "no" && exit 1
+  fi
 fi
