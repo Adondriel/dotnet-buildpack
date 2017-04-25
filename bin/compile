@@ -56,6 +56,11 @@ cat <<EOF >$BUILD_DIR/.profile.d/000_apt.sh
 export LD_LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH"
 EOF
 
+#prep for dotnet
+add-apt-repository ppa:ubuntu-toolchain-r/test 
+apt-get update
+apt-get upgrade
+
 # Get Dotnet Core
 DOTNET_CACHE_LOCATION=${CACHE_DIR}/dotnet/${DOTNET_SDK_VERSION}
 if [ ! -d ${DOTNET_CACHE_LOCATION} ]; then
@@ -68,7 +73,7 @@ if [ ! -d ${DOTNET_CACHE_LOCATION} ]; then
 	#sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
 	#sudo apt-get update
 	#sudo apt-get install dotnet-sdk-ubuntu-x64.1.0.1
-	apt-get install libstdc++6
+	#apt-get install libstdc++6
 
 	DOTNET_SDK_DOWNLOAD_URL=https://go.microsoft.com/fwlink/?LinkID=843462
 	curl -sSL ${DOTNET_SDK_DOWNLOAD_URL} | tar xz -C ${DOTNET_CACHE_LOCATION}/sdk
