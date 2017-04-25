@@ -57,9 +57,10 @@ export LD_LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH"
 EOF
 
 #prep for dotnet
-add-apt-repository ppa:ubuntu-toolchain-r/test 
-apt-get update
-apt-get upgrade
+#add-apt-repository ppa:ubuntu-toolchain-r/test 
+#apt-get update
+#apt-get upgrade
+#apt-get install libstdc++6
 
 # Get Dotnet Core
 DOTNET_CACHE_LOCATION=${CACHE_DIR}/dotnet/${DOTNET_SDK_VERSION}
@@ -69,18 +70,12 @@ if [ ! -d ${DOTNET_CACHE_LOCATION} ]; then
 
 	echo "Downloading .NET SDK version ${DOTNET_SDK_VERSION} and runtime version ${DOTNET_RUNTIME_VERSION}"
 
-	#sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
-	#sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
-	#sudo apt-get update
-	#sudo apt-get install dotnet-sdk-ubuntu-x64.1.0.1
-	#apt-get install libstdc++6
-
-	DOTNET_SDK_DOWNLOAD_URL=https://go.microsoft.com/fwlink/?LinkID=843462
+	DOTNET_SDK_DOWNLOAD_URL=https://go.microsoft.com/fwlink/?LinkID=843450
 	curl -sSL ${DOTNET_SDK_DOWNLOAD_URL} | tar xz -C ${DOTNET_CACHE_LOCATION}/sdk
 	find ${DOTNET_CACHE_LOCATION}/sdk/sdk/${DOTNET_SDK_VERSION}/runtimes/* -maxdepth 0 ! -name unix -exec rm -r {} +
 	rm -f ${DOTNET_CACHE_LOCATION}/sdk/sdk/${DOTNET_SDK_VERSION}/nuGetPackagesArchive.lzma
 
-	DOTNET_RUNTIME_DOWNLOAD_URL=https://go.microsoft.com/fwlink/?LinkID=843410
+	DOTNET_RUNTIME_DOWNLOAD_URL=https://go.microsoft.com/fwlink/?LinkID=843415
 	curl -sSL ${DOTNET_RUNTIME_DOWNLOAD_URL} | tar xz -C ${DOTNET_CACHE_LOCATION}/runtime
 fi
 export PATH="${DOTNET_CACHE_LOCATION}/sdk:$PATH"
@@ -120,8 +115,7 @@ fi
 echo "Building ${PROJECT_JSON_FILE}"
 
 export NUGET_PACKAGES="${CACHE_DIR}/nuget/cache"
-dotnet restore 
-#${PROJECT_JSON_FILE}
+dotnet restore ${PROJECT_JSON_FILE}
 
 dotnet publish --output ${BUILD_DIR} --runtime ubuntu.14.04-x64 --configuration Release 
 
