@@ -64,10 +64,14 @@ if [ ! -d ${DOTNET_CACHE_LOCATION} ]; then
 
 	echo "Downloading .NET SDK version ${DOTNET_SDK_VERSION} and runtime version ${DOTNET_RUNTIME_VERSION}"
 
-	DOTNET_SDK_DOWNLOAD_URL=https://go.microsoft.com/fwlink/?LinkID=843462
-	curl -sSL ${DOTNET_SDK_DOWNLOAD_URL} | tar xz -C ${DOTNET_CACHE_LOCATION}/sdk
-	find ${DOTNET_CACHE_LOCATION}/sdk/sdk/${DOTNET_SDK_VERSION}/runtimes/* -maxdepth 0 ! -name unix -exec rm -r {} +
-	rm -f ${DOTNET_CACHE_LOCATION}/sdk/sdk/${DOTNET_SDK_VERSION}/nuGetPackagesArchive.lzma
+	sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
+	sudo apt-get update
+	sudo apt-get install dotnet-sdk-ubuntu-x64.1.0.1
+	#DOTNET_SDK_DOWNLOAD_URL=https://go.microsoft.com/fwlink/?LinkID=843462
+	#curl -sSL ${DOTNET_SDK_DOWNLOAD_URL} | tar xz -C ${DOTNET_CACHE_LOCATION}/sdk
+	#find ${DOTNET_CACHE_LOCATION}/sdk/sdk/${DOTNET_SDK_VERSION}/runtimes/* -maxdepth 0 ! -name unix -exec rm -r {} +
+	#rm -f ${DOTNET_CACHE_LOCATION}/sdk/sdk/${DOTNET_SDK_VERSION}/nuGetPackagesArchive.lzma
 
 	DOTNET_RUNTIME_DOWNLOAD_URL=https://go.microsoft.com/fwlink/?LinkID=843410
 	curl -sSL ${DOTNET_RUNTIME_DOWNLOAD_URL} | tar xz -C ${DOTNET_CACHE_LOCATION}/runtime
