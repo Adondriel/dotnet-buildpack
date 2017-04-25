@@ -20,8 +20,8 @@ export_env_dir ${ENV_DIR}
 
 : ${LIBUV_VERSION:="1.10.1"}
 : ${NODEJS_VERSION:="6.9.1"}
-: ${DOTNET_SDK_VERSION:="1.0.1"}
-: ${DOTNET_RUNTIME_VERSION:="1.1.1"}
+: ${DOTNET_SDK_VERSION:="1.0.0-preview2-1-003177"}
+: ${DOTNET_RUNTIME_VERSION:="1.1.0"}
 : ${LIBUNWIND_VERSION:="1.1-4.1"}
 
 export NUGET_XMLDOC_MODE=skip
@@ -102,8 +102,8 @@ elif [ -e ${DEPLOYMENT_FILE_LOCATION} ]; then
 	PROJECT_JSON_FILE=${SRC_DIR}/$(awk -F "=" '/project/ {print $2}' ${DEPLOYMENT_FILE_LOCATION} | tr -d ' ')
 	echo "Project file configured in .deployment file"
 else
-	PROJECT_JSON_FILES=$(find ${SRC_DIR}/. -maxdepth 3 -iname "project.json")
-	printf 'Found %s project.json files\n' $(echo "$PROJECT_JSON_FILES" | wc -l | tr -d ' ')
+	PROJECT_JSON_FILES=$(find ${SRC_DIR}/. -maxdepth 3 -iname "*.csproj")
+	printf 'Found %s .csproj files\n' $(echo "$PROJECT_JSON_FILES" | wc -l | tr -d ' ')
 	PROJECT_JSON_FILE=$(echo "$PROJECT_JSON_FILES" | head -1)
 fi
 echo "Building ${PROJECT_JSON_FILE}"
