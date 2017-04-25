@@ -116,8 +116,8 @@ echo "Building ${PROJECT_JSON_FILE}"
 
 export NUGET_PACKAGES="${CACHE_DIR}/nuget/cache"
 dotnet restore ${PROJECT_JSON_FILE}
-
-dotnet publish --output ${BUILD_DIR} --runtime ubuntu.14.04-x64 --configuration Release 
+dotnet build - ${BUILD_DIR} -r ubuntu.14.04-x64
+#dotnet publish --output ${BUILD_DIR} --runtime ubuntu.14.04-x64 --configuration Production 
 
 
 # Get libuv
